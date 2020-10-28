@@ -1,7 +1,14 @@
 <template>
-  <div class="todo-item">
+  <div class="todo-item" :class="{ done: todoItem.completed }">
     <label>
-      <input type="checkbox" />Todo1
+      <!-- :checked根据todo中的完成状态显示为选中还是未选中状态 -->
+      <input
+        type="checkbox"
+        :checked="todoItem.completed"
+        @click="$emit('change-state', $event)"
+      />
+      <!-- 显示todo-item的内容 -->
+      {{ todoItem.content }}
       <span class="check-button"></span>
     </label>
   </div>
@@ -10,6 +17,8 @@
 <script>
 export default {
   name: "TodoListItem",
+  // 接收todo-item属性
+  props: ["todoItem"],
 };
 </script>
 
