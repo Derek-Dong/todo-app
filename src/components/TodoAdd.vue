@@ -23,25 +23,29 @@ export default {
   name: "TodoAdd",
   // props可以访问传递进来的属性，context保留了vue上下文的信息
   setup(props, context) {
-    const todoContent = ref("");
-
-    const emitAddTodo = () => {
-      const todo = {
-        id: props.tid,
-        // 这里需要使用value才能使用ref中的值
-        content: todoContent.value,
-        completed: false,
-      };
-      context.emit("add-todo", todo);
-      todoContent.value = "";
-    };
-
-    return {
-      todoContent,
-      emitAddTodo,
-    };
+    return useEmitAddTodo(props.tid, context.emit);
   },
 };
+
+function useEmitAddTodo(tid, emit) {
+  const todoContent = ref("");
+
+  const emitAddTodo = () => {
+    const todo = {
+      id: tid,
+      // 这里需要使用value才能使用ref中的值
+      content: todoContent.value,
+      completed: false,
+    };
+    emit("add-todo", todo);
+    todoContent.value = "";
+  };
+
+  return {
+    todoContent,
+    emitAddTodo,
+  };
+}
 </script>
 
 <style>
